@@ -1,4 +1,4 @@
-#TestRail API Binding for Python
+# TestRail API Binding for Python
 
 You can learn more about TestRail's API and how to use the Python binding here:
 
@@ -10,8 +10,12 @@ For questions, suggestions, or other requests, please reach out to us through ou
 
 https://www.gurock.com/testrail/support
 
-#For ease of installation, you can simply place this in your requirements.txt
+# Python Quickstart
 
-`git+https://blahladfgals
+For ease of installation, you can simply place this in your requirements.txt
 
-or run `pip install git+...`
+`git+https://github.com/dsayling/testrail-python`
+
+or run `pip install git+https://github.com/dsayling/testrail-python`
+
+This package should eventually be published to pypi.
