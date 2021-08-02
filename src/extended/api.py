@@ -26,6 +26,13 @@ class TestRail(APIClient):
     def get_case_fields(self):
         return self.send_get("get_case_fields")
 
+    def get_cases(self, project_id, suite_id):
+        if suite_id:
+            cases = self.send_get(f"/get_cases/{project_id}&suite_id={suite_id}")
+        else:
+            cases = self.send_get(f"/get_cases/{project_id}")
+        return [Case(**_) for _ in cases]
+
     def get_suite(self, suite_id):
         suite = Suite(**self.send_get(f"get_suite/{suite_id}"))
         sections = self.get_sections(suite.project_id, suite.id)
@@ -71,3 +78,6 @@ class TestRail(APIClient):
 
     def get_case_fields(self):
         return self.send_get("/get_case_fields")
+
+    def update_case(self, case: Case):
+        return self.send_post(f"/update_case/{case.id}", asdict(case))

@@ -19,13 +19,13 @@ import requests
 
 
 class APIClient:
-    def __init__(self, user, password, base_url):
+    def __init__(self, user="", password="", base_url=""):
         self.user = user
         self.password = password
         self.ssl_secure = True
-        if not base_url.endswith('/'):
-            base_url += '/'
-        self.__url = base_url + 'index.php?/api/v2/'
+        if not base_url.endswith("/"):
+            base_url += "/"
+        self.__url = base_url + "index.php?/api/v2/"
 
     def send_get(self, uri, filepath=None):
         """Issue a GET request (read) against the API.
@@ -38,7 +38,7 @@ class APIClient:
         Returns:
             A dict containing the result of the request.
         """
-        return self.__send_request('GET', uri, filepath)
+        return self.__send_request("GET", uri, filepath)
 
     def send_post(self, uri, data):
         """Issue a POST request (write) against the API.
@@ -52,7 +52,7 @@ class APIClient:
         Returns:
             A dict containing the result of the request.
         """
-        return self.__send_request('POST', uri, data)
+        return self.__send_request("POST", uri, data)
 
     def __send_request(self, method, uri, data):
         url = self.__url + uri
@@ -60,41 +60,49 @@ class APIClient:
         if not self.ssl_secure:
             requests.packages.urllib3.disable_warnings()
 
-        auth = base64.b64encode('%s:%s' % (self.user, self.password))
-        headers = {'Authorization': 'Basic ' + auth}
+        auth = base64.b64encode("%s:%s" % (self.user, self.password))
+        headers = {"Authorization": "Basic " + auth}
 
-        if method == 'POST':
-            if uri[:14] == 'add_attachment':    # add_attachment API method
-                files = {'attachment': (open(data, 'rb'))}
-                response = requests.post(url, headers=headers, files=files, verify=self.ssl_secure)
-                files['attachment'].close()
+        if method == "POST":
+            if uri[:14] == "add_attachment":  # add_attachment API method
+                files = {"attachment": (open(data, "rb"))}
+                response = requests.post(
+                    url, headers=headers, files=files, verify=self.ssl_secure
+                )
+                files["attachment"].close()
             else:
-                headers['Content-Type'] = 'application/json'
+                headers["Content-Type"] = "application/json"
                 payload = bytes(json.dumps(data))
-                response = requests.post(url, headers=headers, data=payload, verify=self.ssl_secure)
+                response = requests.post(
+                    url, headers=headers, data=payload, verify=self.ssl_secure
+                )
         else:
-            headers['Content-Type'] = 'application/json'
+            headers["Content-Type"] = "application/json"
             response = requests.get(url, headers=headers, verify=self.ssl_secure)
 
         if response.status_code > 201:
             try:
                 error = response.json()
-                raise APIError('TestRail API returned HTTP %s (%s)' % (response.status_code, error))
-            except:     # response.content not formatted as JSON
-                raise APIError('TestRail API returned HTTP %s (%s)' % (response.status_code, response.content))
+                raise APIError(
+                    "TestRail API returned HTTP %s (%s)" % (response.status_code, error)
+                )
+            except:  # response.content not formatted as JSON
+                raise APIError(
+                    "TestRail API returned HTTP %s (%s)"
+                    % (response.status_code, response.content)
+                )
         else:
-            if uri[:15] == 'get_attachment/':  # Expecting file, not JSON
+            if uri[:15] == "get_attachment/":  # Expecting file, not JSON
                 try:
-                    open(data, 'wb').write(response.content)
-                    return (data)
+                    open(data, "wb").write(response.content)
+                    return data
                 except:
-                    return ("Error saving attachment.")
+                    return "Error saving attachment."
             else:
                 try:
                     return response.json()
-                except: # Nothing to return
+                except:  # Nothing to return
                     return {}
-
 
 
 class APIError(Exception):
