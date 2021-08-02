@@ -20,9 +20,9 @@ import requests
 
 
 class APIClient:
-    def __init__(self, base_url):
-        self.user = ''
-        self.password = ''
+    def __init__(self, user:str, password:str, base_url:str):
+        self.user = user
+        self.password = password
         if not base_url.endswith('/'):
             base_url += '/'
         self.__url = base_url + 'index.php?/api/v2/'

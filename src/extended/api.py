@@ -61,10 +61,10 @@ class TestRail(APIClient):
     def get_sections(self, project_id: int, suite_id: Union[int, None] = None):
         # suite id isn't required on projects that are operating as a "single suite"
         if suite_id:
-            section = self.send_get(f"/get_sections/{project_id}&suite_id={suite_id}")
+            sections = self.send_get(f"/get_sections/{project_id}&suite_id={suite_id}")
         else:
-            section = self.send_get(f"/get_sections/{project_id}")
-        return Section(**section)
+            sections = self.send_get(f"/get_sections/{project_id}")
+        return [Section(**_) for _ in sections]
 
     def delete_suite(self, suite_id: int):
         return self.send_post(f"/delete_suite/{suite_id}", {})
