@@ -60,7 +60,7 @@ class TestRail(APIClient):
         response = self.send_post(f"/add_case/{section_id}", asdict(case))
         field_names = set(f.name for f in fields(Case))
         if response:
-            return Case(**{k:v for k,v in response if k in field_names})
+            return Case(**{k:v} for k,v in response if k in field_names)
 
     def add_section(self, project_id: int, section: Section):
         # new suites are created without cases or a section
