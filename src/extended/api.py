@@ -15,7 +15,7 @@ class TestRail(APIClient):
         super().__init__(user, password, url)
 
     def get_case(self, case_id):
-        return self.send_get(f"get_case/{case_id}")
+        return Case(**self.send_get(f"get_case/{case_id}"))
 
     def get_case_types(self):
         return self.send_get("get_case_types")
@@ -57,7 +57,9 @@ class TestRail(APIClient):
         return suite, section
 
     def add_case(self, section_id: int, case: Case):
-        return self.send_post(f"/add_case/{section_id}", asdict(case))
+        response = self.send_post(f"/add_case/{section_id}", asdict(case))
+        if response:
+            return Case(**response)
 
     def add_section(self, project_id: int, section: Section):
         # new suites are created without cases or a section
