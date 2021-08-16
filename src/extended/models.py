@@ -34,7 +34,9 @@ class Case:
     custom_steps_separated: Union[None, List] = None
     custom_steps: Union[None, List] = None
     display_order: Union[None, List] = None
-
+    title: Union[None, str] = None
+    is_deleted: Union[None, bool] = None
+    custom_automation_type: Union[None, str] = None
 
 @dataclass
 class Section:

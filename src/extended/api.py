@@ -1,6 +1,6 @@
 # todo change to module imports
 import time
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, fields
 from typing import Any, List, Union
 
 from extended.models import Case, Section, Suite
@@ -58,8 +58,9 @@ class TestRail(APIClient):
 
     def add_case(self, section_id: int, case: Case):
         response = self.send_post(f"/add_case/{section_id}", asdict(case))
+        field_names = set(f.name for f in fields(Case))
         if response:
-            return Case(**response)
+            return Case(**{k:v for k,v in response if k in field_names})
 
     def add_section(self, project_id: int, section: Section):
         # new suites are created without cases or a section
