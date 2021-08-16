@@ -33,6 +33,7 @@ class Case:
     ] = None  # The date/time when the test case was last updated (as UNIX timestamp)
     custom_steps_separated: Union[None, List] = None
     custom_steps: Union[None, List] = None
+    display_order: Union[None, List] = None
 
 
 @dataclass
