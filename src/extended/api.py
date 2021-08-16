@@ -83,4 +83,7 @@ class TestRail(APIClient):
         return self.send_get("/get_case_fields")
 
     def update_case(self, case: Case):
-        return self.send_post(f"/update_case/{case.id}", asdict(case))
+        response = self.send_post(f"/update_case/{case.id}", asdict(case))
+        field_names = set(f.name for f in fields(Case))
+        if response:
+            return Case(**{k:v for k,v in response.items() if k in field_names})
