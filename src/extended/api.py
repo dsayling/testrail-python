@@ -15,7 +15,10 @@ class TestRail(APIClient):
         super().__init__(user, password, url)
 
     def get_case(self, case_id):
-        return Case(**self.send_get(f"get_case/{case_id}"))
+        response = self.send_get(f"get_case/{case_id}")
+        field_names = set(f.name for f in fields(Case))
+        if response:
+            return Case(**{k:v for k,v in response.items() if k in field_names})
 
     def get_case_types(self):
         return self.send_get("get_case_types")
