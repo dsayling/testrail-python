@@ -71,6 +71,9 @@ class TestRail(APIClient):
         # so, if suites already have a section, get the sections in the suite, if the names match, just use that, otherwise, create a new one
         return Section(**self.send_post(f"/add_section/{project_id}", asdict(section)))
 
+    def get_section(self, section_id: int):
+        return Section(**self.send_get(f"/get_section/{section_id}"))
+
     def get_sections(self, project_id: int, suite_id: Union[int, None] = None):
         # suite id isn't required on projects that are operating as a "single suite"
         if suite_id:
