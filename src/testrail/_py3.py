@@ -19,12 +19,12 @@ import requests
 
 
 class APIClient:
-    def __init__(self, user:str, password:str, base_url:str):
+    def __init__(self, user: str, password: str, base_url: str):
         self.user = user
         self.password = password
-        if not base_url.endswith('/'):
-            base_url += '/'
-        self.__url = base_url + 'index.php?/api/v2/'
+        if not base_url.endswith("/"):
+            base_url += "/"
+        self.__url = base_url + "index.php?/api/v2/"
 
     def send_get(self, uri, filepath=None):
         """Issue a GET request (read) against the API.
