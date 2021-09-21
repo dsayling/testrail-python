@@ -1,7 +1,9 @@
 from abc import abstractmethod
 from dataclasses import asdict, dataclass, field
+
 from dataclasses import dataclass, field
 from typing import Any, List, Union
+
 
 
 class TestRailBase:

@@ -1,5 +1,9 @@
 # todo change to module imports
 from typing import Union
+import time
+from dataclasses import asdict, dataclass, fields
+from typing import Any, List, Union
+
 
 from extended.models import Case, Section, Suite
 from testrail import APIClient
@@ -15,6 +19,7 @@ class TestRail(APIClient):
     def get_case(self, case_id, model=Case):
         return model.from_get(self.send_get(f"get_case/{case_id}"))
 
+
     def get_case_types(self):
         return self.send_get("get_case_types")
 
@@ -25,11 +30,13 @@ class TestRail(APIClient):
         return self.send_get("get_case_fields")
 
     def get_cases(self, project_id, suite_id, model=Case):
+
         if suite_id:
             cases = self.send_get(f"/get_cases/{project_id}&suite_id={suite_id}")
         else:
             cases = self.send_get(f"/get_cases/{project_id}")
         return [model.from_get(_) for _ in cases]
+
 
     def get_suite(self, suite_id):
         suite = Suite(**self.send_get(f"get_suite/{suite_id}"))
@@ -38,6 +45,7 @@ class TestRail(APIClient):
             suite,
             sections,
         )
+
 
     def get_suites(self, project_id):
         suites = [Suite(**_) for _ in self.send_get(f"get_suites/{project_id}")]
@@ -78,12 +86,14 @@ class TestRail(APIClient):
     def get_sections(
         self, project_id: int, suite_id: Union[int, None] = None, model=Section
     ):
+
         # suite id isn't required on projects that are operating as a "single suite"
         if suite_id:
             sections = self.send_get(f"/get_sections/{project_id}&suite_id={suite_id}")
         else:
             sections = self.send_get(f"/get_sections/{project_id}")
         return [model.from_get(_) for _ in sections]
+
 
     def delete_suite(self, suite_id: int):
         return self.send_post(f"/delete_suite/{suite_id}", {})
