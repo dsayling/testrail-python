@@ -21,6 +21,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           release_branches: "main"
-          tag_prefix: 'example-'
+          tag_prefix: 'example-v'
       - name: Build the packages
-        run: tox -e build
+        run: pip install tox && tox -e build
