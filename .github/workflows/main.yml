@@ -22,3 +22,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           release_branches: "main"
           tag_prefix: 'example-'
+      - name: Build the packages
+        run: tox -e build

@@ -20,9 +20,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install tox
-    - name: Run unittests
-      run: tox -e testrail-uts
     - name: Build the packages
-      run: tox -e build-packages
+      run: tox -e build
     # - name: Test the packages
     #   run: tox -e test-packages
