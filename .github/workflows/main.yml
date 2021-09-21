@@ -24,5 +24,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           release_branches: main,master,integration
           tag_prefix: 'example'
+          fetch_all_tags: true
       - name: Build the packages
         run: pip install tox && tox -e build
