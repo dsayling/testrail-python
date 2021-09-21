@@ -1,0 +1,28 @@
+# This workflow is used to verify the checks on the repo before merging.
+# Anything that should be done whenever a pull_request is opened that is lightweight
+# and easy should be included here.
+# DO NOT RUN TESTS AGAINST THE INT ENVIRONMENT FROM HERE
+# Jobs can be run sequentially or in parallel
+name: premerge-checks
+
+on:
+  pull_request
+
+jobs:
+  test-packages:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8.6'
+    - name: Install dependencies
+      run: |
+        pip install tox
+    - name: Build the packages
+      run: tox -e build
+    # - name: Test the packages
+    #   run: tox -e test-packages

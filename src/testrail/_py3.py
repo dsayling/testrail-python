@@ -19,9 +19,9 @@ import requests
 
 
 class APIClient:
-    def __init__(self, base_url):
-        self.user = ""
-        self.password = ""
+    def __init__(self, user: str, password: str, base_url: str):
+        self.user = user
+        self.password = password
         if not base_url.endswith("/"):
             base_url += "/"
         self.__url = base_url + "index.php?/api/v2/"
@@ -39,6 +39,7 @@ class APIClient:
         """
         return self.__send_request("GET", uri, filepath)
 
+
     def send_post(self, uri, data):
         """Issue a POST request (write) against the API.
 
@@ -52,6 +53,7 @@ class APIClient:
             A dict containing the result of the request.
         """
         return self.__send_request("POST", uri, data)
+
 
     def __send_request(self, method, uri, data):
         url = self.__url + uri

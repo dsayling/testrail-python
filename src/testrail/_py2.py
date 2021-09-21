@@ -19,9 +19,9 @@ import requests
 
 
 class APIClient:
-    def __init__(self, base_url):
-        self.user = ""
-        self.password = ""
+    def __init__(self, user="", password="", base_url=""):
+        self.user = user
+        self.password = password
         self.ssl_secure = True
         if not base_url.endswith("/"):
             base_url += "/"
